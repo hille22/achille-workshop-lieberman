@@ -93,33 +93,12 @@ float circles_mask(vec2 uv, float phase){
 
 void main(){
 
-
-	/*vec3 iResolution = vec3(800.,800.,0.);
-	vec2 uv = 1.5*(2.0*gl_FragCoord.xy - iResolution.xy) / iResolution.y;
-	
-	float t0 = time;
-	float t = t0 +
-		length(5.0*cos(t0*vec2(-0.5,  0.9) + 0.5*uv)) +
-		length(5.0*cos(t0*vec2( 1.7, -0.7) + 0.5*uv));
-	
-
-	
-	float phase2 = tan(t + pi)*2.5 + 0.5;
-	float mask2 = circles_mask(uv + 0.5, phase2);
-
-	vec4 color = vec4(1.0);
-	
-	color = mix(color, vec4(0.0, 0., .0, 1.0), mask2);
-
-
-	gl_FragColor = color;*/
-
-	float x = gl_FragCoord.x;
-    float y = gl_FragCoord.y;
-    float amt = snoise( vec3(x*.2, y*.2, time*0.3 ));
-    x = x + amt*100.0;
-    float amt2 = snoise( vec3( y*.2, time*0.3, x*.2 ));
-    y = y + amt2*100.0;
+	float x =  gl_FragCoord.x;
+    float y =  gl_FragCoord.y;
+    float amt = snoise( vec3(x*.5, y*.5, time*1. ));
+    x = x + amt*10.0;
+    float amt2 = snoise( vec3( y*.5, time*1., x*.2 ));
+    y = y + amt2*10.0;
     vec3 color = texture2DRect(circle, vec2(x,y)).rgb;
     gl_FragColor = vec4(color, 1.0);
 

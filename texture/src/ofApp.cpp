@@ -24,26 +24,89 @@ void ofApp::update(){
     if (ofGetFrameNum() % 60 == 0){
         shader.load("", "shader.frag");
     }
+
+	time = ofGetElapsedTimef();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
 
+	float radius = 250;
+
 	fbo.begin();
-	ofClear(0, 0, 0, 255);
-	ofSetColor(255);
-	ofDrawCircle(400, 400, 250);
+	ofEnableBlendMode(OF_BLENDMODE_DISABLED);
+	ofBackground(100,40,255);
+
+	ofEnableBlendMode(OF_BLENDMODE_ADD);
+
+	//float duration = 
+	
+	ofTranslate(400,400);
+
+
+	float maxOffset = 100;
+	float offset = sin(time*1) * maxOffset;
+	ofVec3f pos;
+	ofColor col;
+	float offRadius = (cos(time * 1) * radius * 0.1 )+radius;
+
+	pos = ofVec3f(ofSignedNoise(time*0.2, 400, -200)*offset, ofSignedNoise(time*0.2, -150) * offset, 0);
+	col = ofColor(100, 30, 20);
+	drawCircleColor(pos, offRadius, col);
+	
+	pos = ofVec3f(ofSignedNoise(time*0.2, 100) * -offset, ofSignedNoise(time*0.2, 100, 400) * offset, 0);
+	col = ofColor(255, 30, 0);
+	drawCircleColor(pos, offRadius, col);
+
+	pos = ofVec3f(ofSignedNoise(time*0.2, -193, 234) * offset, ofSignedNoise(time*0.02 + 40, 200, -400) * -offset, 0);
+	col = ofColor(30, 255, 0);
+	drawCircleColor(pos, offRadius, col);
+	
+	
 	fbo.end();
 
     shader.begin();
 	shader.setUniformTexture("circle", fbo.getTexture(), 0);
-	shader.setUniform1f("time", ofGetElapsedTimef());
+	shader.setUniform1f("time", time);
 	ofDrawRectangle(0, 0, 800, 800);
 
     shader.end();
-    
-    
+
+
 }
+
+void ofApp::drawCircleColor(ofVec3f &center, float radius, ofColor &color, int resolution) {
+	glBegin(GL_QUADS);
+
+	float angle = ofMap(resolution-1, 0, resolution, 0, TWO_PI);
+	float _x = center.x +radius * cos(angle);
+	float _y = center.y + radius * sin(angle);
+
+	for (int i = 0; i < resolution; i++) {
+
+		angle = ofMap(i, 0, resolution, 0, TWO_PI);
+
+		float x = center.x + radius * cos(angle);
+		float y = center.y +radius * sin(angle);
+
+		float off = ofMap(x, -radius, radius, 0, 1);
+
+		ofColor col = color/255;
+		glColor3f(0, 0, 0);
+	
+		glVertex3f(0, 0, 0.0f);
+		glColor3f(col.r, col.g, col.b);
+		glVertex3f(x, y, 0.0f);
+		glVertex3f(_x, _y, 0.0f);
+
+		_y = y;
+		_x = x;
+	}
+
+	
+	glEnd();
+}
+
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){

@@ -4,8 +4,12 @@
     "\\metaball2",
     "\\metaball2\\bin",
     "\\metaball2\\bin\\data",
-    "\\metaball2\\src"
+    "\\metaball2\\src",
+    "\\texture",
+    "\\texture\\bin",
+    "\\texture\\bin\\data",
+    "\\texture\\src"
   ],
-  "SelectedNode": "\\metaball2\\src\\ofApp.cpp",
+  "SelectedNode": "\\texture\\src\\ofApp.cpp",
   "PreviewInSolutionExplorer": false
 }

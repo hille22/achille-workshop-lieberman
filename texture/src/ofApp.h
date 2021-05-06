@@ -20,10 +20,15 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+		void drawCircleColor(ofVec3f &center, float radius, ofColor &color, int resolution = 40);
 	
     
     ofFbo fbo;
     ofShader shader;
+
+	float time;
+
+
 
 
 
